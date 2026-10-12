@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRUD Operation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            color: black;
+            font-size: 12px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 16px;
+            font-weight: normal;
+            margin: 35px 0 10px;
+        }
+
+        .add-new {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 5px;
+            vertical-align: top;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        .delete-form {
+            display: inline;
+        }
+
+        .delete-button {
+            background: none;
+            border: none;
+            padding: 0;
+            color: black;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .add-form {
+            margin: 35px 10px;
+        }
+
+        .add-form p {
+            margin: 10px 0;
+        }
+
+        .add-form input,
+        .add-form select {
+            margin-left: 5px;
+        }
+
+        .error {
+            text-align: center;
+            color: red;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 15px 5px 20px;
+            color: #777;
+            font-size: 11px;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+
+<body>
+<main>
+    <h2>CRUD OPERATION</h2>
+
+    <div class="add-new">
+        <a href="#add-form">add new</a>
+    </div>
+
+    {{#if error}}
+        <p class="error">{{error}}</p>
+    {{/if}}
+
+    <table>
+        <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>age</th>
+                <th>gender</th>
+                <th>type</th>
+                <th>zip</th>
+                <th>address</th>
+                <th>action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each students}}
+            <tr>
+                <td>{{this.firstName}}</td>
+                <td>{{this.lastName}}</td>
+                <td>{{this.age}}</td>
+                <td>{{this.gender}}</td>
+                <td>{{this.type}}</td>
+                <td>{{this.zip}}</td>
+                <td>{{this.address}}</td>
+                <td>
+                    <a href="/students/edit/{{this.id}}">edit</a>
+                    |
+                    <form class="delete-form"
+                          action="/students/delete/{{this.id}}"
+                          method="POST"
+                          onsubmit="return confirm('Delete this student?');">
+                        <button class="delete-button" type="submit">delete</button>
+                    </form>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="8">No student records found.</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <div class="add-form" id="add-form">
+        <h3>Add New Student</h3>
+
+        <form action="/students/insert" method="POST">
+            <p>First Name:
+                <input type="text" name="firstName" required>
+            </p>
+
+            <p>Last Name:
+                <input type="text" name="lastName" required>
+            </p>
+
+            <p>Age:
+                <input type="number" name="age" min="1" max="120" required>
+            </p>
+
+            <p>Gender:
+                <select name="gender" required>
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </p>
+
+            <p>Type:
+                <input type="text" name="type">
+            </p>
+
+            <p>ZIP:
+                <input type="text" name="zip">
+            </p>
+
+            <p>Address:
+                <input type="text" name="address">
+            </p>
+
+            <button type="submit">Insert</button>
+        </form>
+    </div>
+</main>
+
+<footer>
+    © 2026 XianFire Framework — Built with ❤️ | Mindoro State University
+</footer>
+
+</body>
+</html>
+
